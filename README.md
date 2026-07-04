@@ -198,15 +198,6 @@ ml-nids-smart-city/
 
 ---
 
-## 🔭 Possible Next Steps
-
-- Extend detection to additional attack types (e.g., ICMP flood, Slowloris, port scanning)
-- Add streaming feature extraction so the ML model consumes live CICFlowMeter-style features directly, instead of a simplified rule-based feature set
-- Containerize the lab (Docker/Vagrant) for faster, reproducible environment setup
-- Add a lightweight dashboard for visualizing live alerts instead of CLI-only output
-
----
-
 ## 📄 License
 
 This project is shared under the [MIT License](LICENSE) — feel free to reference the structure and approach for your own network security learning projects.
