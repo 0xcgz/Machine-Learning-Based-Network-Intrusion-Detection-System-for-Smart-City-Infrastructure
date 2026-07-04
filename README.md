@@ -63,7 +63,7 @@ A fully isolated virtual lab was built to generate realistic benign and attack t
 
 Four VMs sit behind a virtual switch on an isolated host-only network: a normal-traffic generator, an attacker VM, the target server, and a monitor VM running in promiscuous mode to passively capture all traffic for both dataset generation and live inference.
 
-![Network Architecture](images/1.png)
+![Network Architecture](images/network-architecture.png)
 
 ---
 
@@ -86,7 +86,7 @@ Raw captured traffic was converted into labeled network flow records using **CIC
 
 The raw dataset was heavily imbalanced toward benign traffic. **Random Undersampling** was applied to bring every class down to the minority class size before training, preventing the models from trivially favoring the majority class.
 
-![Class Distribution Before and After Undersampling](images/2.png)
+![Class Distribution Before and After Undersampling](images/class-distribution.png)
 
 ---
 
@@ -94,9 +94,9 @@ The raw dataset was heavily imbalanced toward benign traffic. **Random Undersamp
 
 Five classification algorithms were trained and benchmarked on the balanced dataset: **K-Nearest Neighbors, Logistic Regression, Decision Tree, Random Forest, and SVM**. Each model was evaluated on Accuracy, Precision, Recall, F1-score, training time, prediction time, and memory usage.
 
-![Model Comparison Table](images/3.png)
+![Model Comparison Table](images/model-comparison-table.png)
 
-![F1-score Comparison Across Models](images/4.png)
+![F1-score Comparison Across Models](images/f1-score-comparison.png)
 
 **Random Forest** was selected as the best-performing and most deployable model — it topped every accuracy metric while keeping prediction latency (0.44s) and memory usage (1.56 MB) low enough for real-time inference. KNN was competitive on accuracy but impractical for deployment, with a ~133-second prediction time and 65 MB memory footprint per batch.
 
@@ -106,7 +106,7 @@ Five classification algorithms were trained and benchmarked on the balanced data
 
 The confusion matrix for the Random Forest model shows near-perfect separation between all four traffic classes, with only 9 misclassifications out of 70,789 test samples — all between `benign` and `http_flood`, which is expected since HTTP floods use legitimate-looking application-layer requests.
 
-![Confusion Matrix - Random Forest](images/5.png)
+![Confusion Matrix - Random Forest](images/confusion-matrix-random-forest.png)
 
 ---
 
@@ -116,23 +116,23 @@ The trained Random Forest model was deployed into a custom **Real-Time CLI IDS**
 
 **IDS startup and interface selection:**
 
-![IDS Startup](images/6.png)
+![IDS Startup](images/ids-startup.png)
 
 **Benign traffic correctly classified as normal (ping, curl, FTP):**
 
-![Benign Traffic Detection](images/7.png)
+![Benign Traffic Detection](images/benign-traffic-detection.png)
 
 **SYN Flood detected in real time (`hping3 -S --flood`):**
 
-![SYN Flood Detection](images/8.png)
+![SYN Flood Detection](images/syn-flood-detection.png)
 
 **HTTP Flood detected in real time (ApacheBench):**
 
-![HTTP Flood Detection](images/9.png)
+![HTTP Flood Detection](images/http-flood-detection.png)
 
 **UDP Flood detected in real time:**
 
-![UDP Flood Detection](images/10.png)
+![UDP Flood Detection](images/udp-flood-detection.png)
 
 ---
 
